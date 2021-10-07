@@ -11,9 +11,9 @@
 #define MIN_POSITION -100
 #define MAX_VELOCITY 10
 #define MIN_VELOCITY -10
-#define w 0.01      // 0.01
-#define c1 0.5      // 0.5
-#define c2 1.8      // 1.8
+#define w 1
+#define c1 1
+#define c2 1
 
 using namespace std;
 

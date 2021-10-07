@@ -115,7 +115,7 @@ int main() {
     auto start = chrono::steady_clock::now();
 
     ofstream ofs;
-    ofs.open("PSO_Mathematical_optimization-output.txt");
+    ofs.open("output.txt");
     ofs << "Round: " << ROUND << endl;
     ofs << "Generation: " << GENERATION << endl;
     ofs << "Population: " << POPULATION << endl;

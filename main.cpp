@@ -94,7 +94,7 @@ void move() {
             // lastVelocity = velocity
             lastVelocity[i][j] = velocity[i][j];
 
-            //position = position + velocity
+            // position = position + velocity
             position[i][j] = position[i][j] + velocity[i][j];
 
             if (position[i][j] > MAX_POSITION) {

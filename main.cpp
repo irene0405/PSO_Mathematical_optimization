@@ -1,18 +1,19 @@
 #include <iostream>
+#include <fstream>
 #include <random>
 #include <iomanip>
 
-#define POPULATION 300
-#define GENERATION 500
-#define ROUND 10
-#define DIMENSION 2
+#define ROUND 100
+#define GENERATION 100
+#define POPULATION 100
+#define DIMENSION 1
 #define MAX_POSITION 100
 #define MIN_POSITION -100
 #define MAX_VELOCITY 10
 #define MIN_VELOCITY -10
-#define w 0.01
-#define c1 0.5
-#define c2 1.8
+#define w 0.01      // 0.01
+#define c1 0.5      // 0.5
+#define c2 1.8      // 1.8
 
 using namespace std;
 
@@ -108,9 +109,22 @@ void move() {
 }
 
 int main() {
-    long double total = 0.0;
+    long double best_value = INT_MAX, worst_value = -1, total = 0.0;
+
     // count execution time
     auto start = chrono::steady_clock::now();
+
+    ofstream ofs;
+    ofs.open("PSO_Mathematical_optimization-output.txt");
+    ofs << "Round: " << ROUND << endl;
+    ofs << "Generation: " << GENERATION << endl;
+    ofs << "Population: " << POPULATION << endl;
+    ofs << "Max velocity: " << MAX_VELOCITY << endl;
+    ofs << "Min velocity: " << MIN_VELOCITY << endl;
+    ofs << "Inertia weight: " << w << endl;
+    ofs << "Particle best weight: " << c1 << endl;
+    ofs << "Globe best weight: " << c2 << endl;
+    ofs << "============================" << endl;
 
     for (int j = 0; j < ROUND; j++) {
         init();
@@ -119,12 +133,23 @@ int main() {
             update();
             move();
         }
-        total += gBestFitness;
-        cout << "Round " << j + 1 << " / " << ROUND << ": " << gBestFitness << endl;
+        if (gBestFitness < best_value) {
+            best_value = gBestFitness;
+        } else if (gBestFitness > worst_value) {
+            worst_value = gBestFitness;
+        }
+        ofs << "Round: " << j + 1 << " / " << ROUND << " --- " << gBestFitness << endl;
     }
-    cout << endl << "Average value: " << (long double) total / ROUND << endl;
+    ofs << "============================" << endl;
+    ofs << "Average value: " << (long double) total / ROUND << endl;
+    ofs << "Worst value: " << worst_value << endl;
+    ofs << "Best value: " << best_value << endl;
+    ofs << "============================" << endl;
 
     // count execution time
     auto end = chrono::steady_clock::now();
-    cout << endl << "Time taken: " << chrono::duration<double>(end - start).count() << " s" << endl;
+    cout << "Time taken: " << chrono::duration<double>(end - start).count() << " s" << endl;
+
+    ofs << "Time taken: " << chrono::duration<double>(end - start).count() << " s" << endl;
+    ofs.close();
 }
